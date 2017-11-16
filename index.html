@@ -1,36 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
   <script type="text/javascript" src="vue.js">
-
   </script>
 </head>
+
 <body>
 
-<div id="exp">
-  <p>Original message: "{{ message }}"</p>
- <p>Computed reversed message: "{{ reversedMessage }}"</p>
-</div>
+  <div id="exp">
+    <p>
+   Задайте вопрос, на который можно ответить "да" или "нет":
+   <input v-model="question">
+ </p>
+ <p>{{ answer }}</p>
 
 
-<script type="text/javascript">
+  </div>
 
-  var vm = new Vue({
-    el : '#exp',
-    data : {
-      message : 'Hello',
-    },
-    computed : {
-      reversedMessage : function(){
-        return this.message.split('').reverse().join('');
+
+  <script type="text/javascript">
+    var vm = new Vue({
+      el: '#exp',
+      data : {
+        question : '',
+        answer : ''
+      },
+      watch : {
+        question: function (newQuest){
+          this.answer = ' wait answer ';
+          this.getAnswer()
+        }
+      },
+      methods : {
+        getAnswer : _.debounce(
+          function(){
+            if(this.question.indexOf('?') === -1){
+              this.answer = ' question isisali  ended question symbol ;)'
+              return
+            }
+            this.answer = ' Think... '
+            var vm = this
+
+            axios.get('https://yesno.wtf/api')
+            .then(function(resp){
+              vm.answer = _.capitalize(response.data.answer)
+            })
+            .catch(function(error){
+              vm.answer = 'error'
+            })
+          },
+          500
+        )
       }
-    }
-  })
-
-</script>
+    })
+  </script>
 </body>
+
 </html>
