@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    
+<div id="app">
+    <h1>
+        Hello
+      {{name}}
+    </h1>
+    <h2>
+        {{userInfo}}
+    </h2>
+    <a :href="url"> My Home page </a>
+    <button @click="changeName"> Change name </button>
+    <br><br>
+    add book <input type="text" v-model="currentBook" /><button @click="addBook"> add book </button>
+    <p>{{errorMessage}}</p>
+    <h3>Books </h3>
+    <ul>
+        <li v-for=" book in books">
+            {{book}}
+        </li>
+    </ul>
+
+    <sanya></sanya>
+</div>
+
+<script>
+
+    Vue.component('sanya', {
+        template : '<h1> Hello i am sanya </h1>'
+    })
+
+    new Vue({
+        el : '#app',
+        data : {
+            name : 'Sanya',
+            url : 'google.com',
+            age: 33,
+            currentBook : 'vue book',
+            books : [],
+            errorMessage : ''
+        },
+        methods :{
+            changeName : function(){
+                this.name = 'Julia';
+            },
+            addBook : function(){
+                if(this.currentBook != ''){
+                    this.books.push(this.currentBook);
+                    this.currentBook = '';
+                    this.errorMessage = ''
+                }else{
+                    this.errorMessage = 'Please input book name'
+                }
+            }
+        },
+        computed : {
+            userInfo : function(){
+                return this.name + ' is ' + this.age 
+            }
+        },
+        watch : {
+            name : function(){
+                console.log(this.name)
+                }
+        }
+    })
+</script>
+</body>
+</html>
