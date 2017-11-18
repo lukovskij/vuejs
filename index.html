@@ -10,25 +10,20 @@
 <body>
     
 <div id="app">
-   <div v-bind:class="classObject"></div>
+  
+    <h1 v-show="ok">Привет!</h1>
+
 </div>
 
 <script>
- var vm = new Vue({
-    el : '#app',
-    data:{
-        isActive : true,
-        error : null
-    },
-    computed : {
-        classObject : function(){
-            return {
-                active : this.isActive && !this.error,
-                danger : this.error && this.error.type == 'fatal'
-            }
-        }
-    }
-})
+
+     var vm = new Vue({
+         el : '#app',
+         data : {
+             ok : true
+         }
+     })
+
 </script>
 </body>
 </html>
