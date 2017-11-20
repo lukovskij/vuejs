@@ -6,8 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
   <script type="text/javascript" src="vue.js">
   </script>
 </head>
@@ -15,51 +13,66 @@
 <body>
 
   <div id="exp">
-    <p>
-   Задайте вопрос, на который можно ответить "да" или "нет":
-   <input v-model="question">
- </p>
- <p>{{ answer }}</p>
-
-
+  <input
+    v-model="newTodoText"
+    v-on:keyup.enter = 'addNewTodo'
+    placeholder="Add todo"
+  >
+  <ul>
+    <li
+      is="todo-item"
+      v-for="(todo, index) in todos"
+      v-bind:key="todo.id"
+      v-bind:title="todo.title"
+      v-on:remove="todos.splice(index, 1)"
+    ></li>
+  </ul>
   </div>
 
 
   <script type="text/javascript">
-    var vm = new Vue({
+  Vue.component('todo-item', {
+template: '\
+  <li>\
+    {{ title }}\
+    <button v-on:click="$emit(\'remove\')">X</button>\
+  </li>\
+',
+props: ['title']
+});
+
+    vm = new Vue({
+
       el: '#exp',
       data : {
-        question : '',
-        answer : ''
-      },
-      watch : {
-        question: function (newQuest){
-          this.answer = ' wait answer ';
-          this.getAnswer()
-        }
+        newTodoText : '',
+        todos : [
+          {
+            id : 1,
+            title : 'Wash plates'
+          },
+          {
+            id : 2,
+            title: 'musor'
+          },
+          {
+            id : 3,
+            title : 'gazon'
+          }
+        ],
+        nextTodoId : 4
       },
       methods : {
-        getAnswer : _.debounce(
-          function(){
-            if(this.question.indexOf('?') === -1){
-              this.answer = ' question isisali  ended question symbol ;)'
-              return
-            }
-            this.answer = ' Think... '
-            var vm = this
-
-            axios.get('https://yesno.wtf/api')
-            .then(function(resp){
-              vm.answer = _.capitalize(response.data.answer)
-            })
-            .catch(function(error){
-              vm.answer = 'error'
-            })
-          },
-          500
-        )
+        addNewTodo : function () {
+          this.todos.push({
+            id : this.nextTodoId++,
+            title : this.newTodoText
+          })
+          this.newTodoText = ''
+        }
       }
-    })
+
+    });
   </script>
 </body>
 
