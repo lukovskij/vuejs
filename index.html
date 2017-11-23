@@ -11,19 +11,38 @@
     
 <div id="app">
   
-    <h1 v-show="ok">Привет!</h1>
-
+    <p>{{total}}</p>
+    <button-counter v-on:adad="incrementTotal"></button-counter>
+    <button-counter v-on:increment="incrementTotal"></button-counter>
 </div>
 
 <script>
+Vue.component('button-counter', {
+    template: '<button v-on:click="incrementCounter">{{counter}}</button>',
+    data : function () {
+        return {
+            counter : 0
+        }
+    },
+    methods : {
+        incrementCounter : function(){
+            this.counter += 1;
+            this.$emit('adad');
+        }
+    }
+})
 
-     var vm = new Vue({
-         el : '#app',
-         data : {
-             ok : true
-         }
-     })
-
+new Vue ({
+    el : '#app',
+    data : {
+        total : 0
+    },
+    methods : {
+        incrementTotal : function(){
+            this.total += 1
+        }
+    }
+})
 </script>
 </body>
 </html>
