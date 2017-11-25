@@ -24,6 +24,13 @@
       </div>
     </div>
   </div>
+  <div class="container" v-else>
+    <div class="row">
+      <div class="col">
+        <main-page :uid = "uid"></main-page>
+      </div>
+    </div>
+  </div>
 </div>
 
 </template>
@@ -31,6 +38,7 @@
 <script>
 import SiginIn from './components/SiginIn';
 import SiginUp from './components/SiginUp';
+import MainPage from './components/MainPage'
 export default {
   name: 'app',
   data () {
@@ -44,7 +52,8 @@ export default {
   },
   components : { // показываем какие компоненты будем использовать внутри шаблона
      SiginIn,
-     SiginUp
+     SiginUp,
+     MainPage
   },
   methods : {
     switchSign(switcher) {
