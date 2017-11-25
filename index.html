@@ -5,56 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src="vue.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 </head>
 <body>
     
 <div id="app">
+     <div class="container">
+         <div class="row">
+             <div class="col">
+                 <h1 v-once>{{ title }}</h1>
+             </div>
+         </div>
 
-        <currency-input v-model="price"></currency-input>
-
+         <div class="row">
+             <div class="col">
+                 <span> Todo name </span>
+                 <input type="text" v-model="itemTitle">
+             </div>
+         </div>
+         <div class="row">
+             <div class="col">
+                 <span>
+                     todo descr
+                 </span>
+                 <input type="text" v-model="itemDescr">
+             </div>
+         </div>
+         <div class="row">
+             <div class="col">
+                 <input type="submit" value="add todo" v-on:click.prevent="addItem">
+             </div>
+         </div>
+     </div>
+     <hr>
+     <div class="container">
+         <div class="row">
+             <div class="card" v-for="item in items">
+                 <div class="card-block">
+                     <h3>
+{{item.title}}
+                     </h3>
+                     <p>
+{{item.descr}}
+                     </p>
+                 </div>
+             </div>
+         </div>
+     </div>
 </div>
 
-<script>
-Vue.component('currency-input', {
-
-    template: '\
-    <span>\
-      $\
-      <input\
-        ref="input"\
-        v-bind:value="value"\
-        v-on:input="updateValue($event.target.value)"\
-      >\
-    </span>\
-  ',
-  props: ['value'],
-  methods: {
-      updateValue : function(value) {
-          var formattedValue = value
-          .trim()
-          .slice(
-              0,
-              value.indexOf('.') === -1
-              ? value.length
-              : value.indexOf('.') + 3
-          )
-          if(formattedValue !== value) {
-              this.$refs.input.value = formattedValue;
-          }
-          this.$emit('input', Number(formattedValue));
-
-          console.log(this);
-      }
-  }
-})
-
-new Vue ({
-    el : '#app',
-    data : {
-        price : 0
-    },
-})
-</script>
+<script src="vue.js"></script>
+<script src="main.js"></script>
 </body>
 </html>
